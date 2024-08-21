@@ -111,6 +111,25 @@ return [
             // 'encrypt' => env('DB_ENCRYPT', 'yes'),
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
+        'kinalgames' => [
+            'driver' => 'mysql',
+            'url' => env('KG_DATABASE_URL'),
+            'host' => env('KG_DB_HOST', '127.0.0.1'),
+            'port' => env('KG_DB_PORT', '3306'),
+            'database' => env('KG_DB_DATABASE', 'kinalgames'),
+            'username' => env('KG_DB_USERNAME', 'dev'),
+            'password' => env('KG_DB_PASSWORD', ''),
+            'unix_socket' => env('KG_DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => true,
+            'engine' => 'InnoDB',
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+            ]) : [],
+        ],
 
     ],
 
@@ -166,6 +185,14 @@ return [
             'password' => env('REDIS_PASSWORD'),
             'port' => env('REDIS_PORT', '6379'),
             'database' => env('REDIS_CACHE_DB', '1'),
+        ],
+        'kinalgames' => [
+            'url' => env('REDIS_URL'),
+            'host' => env('REDIS_HOST', '127.0.0.1'),
+            'username' => env('REDIS_USERNAME'),
+            'password' => env('REDIS_PASSWORD'),
+            'port' => env('REDIS_PORT', '6379'),
+            'database' => env('REDIS_SESSION_DB', '2'),
         ],
 
     ],
