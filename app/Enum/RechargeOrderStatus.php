@@ -2,7 +2,7 @@
 
 namespace App\Enum;
 
-enum RechargeOrderStatus :string
+enum RechargeOrderStatus: string
 {
     case PENDING = 'pending';
     case SUCCESS = 'success';

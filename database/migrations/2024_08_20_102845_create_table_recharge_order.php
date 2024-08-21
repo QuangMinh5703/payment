@@ -15,6 +15,7 @@ return new class extends PaymentCreateMigration
         $table->id();
         $table->foreignId('user_id')->constrained('user');
         $table->foreignId('product_id')->constrained('product');
+        $table->char('payment_method', 16)->comment('momo/bank_transfer/stripe/google/apple')->index();
         $table->unsignedInteger('amount');
         $table->char('status', 24)->default(RechargeOrderStatus::PENDING)->comment("Trạng thái xử lý đơn hàng");
         $table->json('payload')->nullable();

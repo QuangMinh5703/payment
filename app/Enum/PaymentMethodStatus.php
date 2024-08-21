@@ -2,7 +2,7 @@
 
 namespace App\Enum;
 
-enum PaymentMethodStatus :string
+enum PaymentMethodStatus: string
 {
     case ACTIVE = 'active';
     case CLOSED = 'closed';
