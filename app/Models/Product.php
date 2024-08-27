@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enum\ProductCode;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
@@ -42,4 +43,9 @@ class Product extends PayModel
         'name',
         'description',
     ];
+
+    public function RechargeOrder(): HasMany
+    {
+        return $this->hasMany(RechargeOrder::class);
+    }
 }

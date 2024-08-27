@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Laravel\Sanctum\HasApiTokens;
 
 /**
  * App\Models\User
@@ -16,8 +19,11 @@ use Illuminate\Database\Eloquent\Builder;
  * @method static Builder|static whereName($value)
  * @method static Builder|static whereEmail($value)
 */
-class User extends PayModel
+class User extends PayModel implements Authenticatable
 {
+    use HasFactory,HasApiTokens;
+    use \Illuminate\Auth\Authenticatable;
+
     protected $table = 'user';
 
     protected $fillable = [
@@ -34,4 +40,9 @@ class User extends PayModel
       'name',
       'email'
     ];
+
+    public function RechargeOrder(): HasMany
+    {
+        return $this->hasMany(RechargeOrder::class);
+    }
 }

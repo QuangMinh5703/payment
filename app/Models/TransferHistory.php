@@ -4,6 +4,7 @@ namespace App\Models;
 
 
 use App\Enum\TransferHistoryStatus;
+use App\Models\Traits\HasBankingTransferQRCode;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 
@@ -33,6 +34,8 @@ use Illuminate\Support\Carbon;
 */
 class TransferHistory extends PayModel
 {
+    use HasBankingTransferQRCode;
+
     protected $table = 'transfer_history';
 
     protected $fillable = [

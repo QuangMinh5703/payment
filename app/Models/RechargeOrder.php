@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use App\Enum\PaymentMethodStatus;
+use App\Enum\PaymentMethodType;
 use App\Enum\RechargeOrderStatus;
+use App\Facade\TransferPay;
+use App\Models\Traits\HasBankingTransferQRCode;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * App\Models\RechargeOrder
@@ -26,6 +30,8 @@ use Illuminate\Database\Eloquent\Builder;
 */
 class RechargeOrder extends PayModel
 {
+    use HasBankingTransferQRCode;
+
     protected $table = 'recharge_order';
 
     protected $fillable = [
@@ -39,9 +45,30 @@ class RechargeOrder extends PayModel
     ];
 
     protected $casts = [
-        'payment_method' => PaymentMethodStatus::class,
+        'payment_method' => PaymentMethodType::class,
         'status' => RechargeOrderStatus::class,
         'expired_at' => 'datetime',
     ];
 
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    public function qrCodeData(): ?string
+    {
+        if ($this->payment_method == PaymentMethodType::BANK_TRANSFER) {
+            $paymentMethod = PaymentMethod::where('type', PaymentMethodType::BANK_TRANSFER)->active()->inRandomOrder()->first();
+            $amount = $this['amount'];
+
+            return $this->generateQRCodeData($paymentMethod->metadata['bank_id'], $paymentMethod->metadata['account_number'], TransferPay::paymentMemoForOrder(), amount: $amount);
+        }
+
+        return null;
+    }
 }

@@ -23,6 +23,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  *
+ * @method static Builder|static active()
  * @method static Builder|static whereId($value)
  * @method static Builder|static whereType($value)
  * @method static Builder|static whereCode($value)
@@ -57,4 +58,9 @@ class PaymentMethod extends PayModel
         'status' => PaymentMethodStatus::class,
         'type' => PaymentMethodType::class,
     ];
+
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query->where('status', PaymentMethodStatus::ACTIVE);
+    }
 }

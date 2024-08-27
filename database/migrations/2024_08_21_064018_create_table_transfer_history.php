@@ -11,7 +11,7 @@ return new class extends PaymentCreateMigration
     public function definition(\App\Database\Blueprint $table): void
     {
         $table->id();
-        $table->foreignId('order_id')->constrained('order');
+        $table->unsignedInteger('order_id');
         $table->string('title');
         $table->longText('content');
         $table->char('content_sign', 32)->index();
