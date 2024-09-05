@@ -3,26 +3,19 @@
 namespace App;
 
 use App\Contract\ITransferPay;
+use App\Models\RechargeOrder;
 
 
 final class TransferPay implements ITransferPay
 {
-    public function paymentMemoForOrder(): string
+    public function paymentMemoForOrder(RechargeOrder $order): string
     {
-        // Tạo 2 ký tự ngẫu nhiên cho prefix
-        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $prefix = $characters[rand(0, 25)] . $characters[rand(0, 25)];
+        // Lấy tx_id của order
+        $txId = $order->tx_id;
 
-        // Lấy thời gian hiện tại dưới dạng microseconds
-        $timestamp = microtime(true);
+        // Ví dụ, lấy tối đa 10 ký tự từ txId
+        $shortTxId = substr($txId, 4, 14);
 
-        // Chuyển đổi thành chuỗi số và loại bỏ dấu chấm
-        $numericPart = str_replace('.', '', (string)$timestamp);
-
-        // Lấy 6 chữ số cuối cùng để đảm bảo tổng độ dài là 8
-        $numericPart = substr($numericPart, -6);
-
-        // Kết hợp prefix và phần số
-        return $prefix . $numericPart;
+        return $shortTxId;
     }
 }

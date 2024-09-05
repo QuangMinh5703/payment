@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Command\RechargeOrderCommand;
 use App\TransferPay;
 use App\Payment;
 use Illuminate\Support\ServiceProvider;
@@ -14,6 +15,11 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->registerComponents();
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                RechargeOrderCommand::class
+            ]);
+        }
     }
 
     /**

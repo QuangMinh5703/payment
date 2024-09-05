@@ -13,6 +13,7 @@ return new class extends PaymentCreateMigration
     public function definition(Blueprint $table): void
     {
         $table->id();
+        $table->string('tx_id')->unique()->comment('Id của order');
         $table->foreignId('user_id')->constrained('user');
         $table->foreignId('product_id')->constrained('product');
         $table->char('payment_method', 16)->comment('momo/bank_transfer/stripe/google/apple')->index();
